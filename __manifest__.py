@@ -1,22 +1,16 @@
 {
-    'name': 'biblioteca',
+    'name': 'Biblioteca',
     'version': '18.0.0.1',
-    'description': 'Biblioteca digital',
-    'summary': 'Proyecto final del curso de programacion de odoo',
+    'summary': 'Módulo para gestionar una biblioteca',
+    'category': 'Tools',
     'author': 'ESGD, NYVC',
-    'website': 'www.example.com',
-    'license': 'LGPL-3',
-    'category': 'aplication',
-    'depends': [
-        'base'
-    ],
+    'website': 'www.example.copm',
+    'depends': ['base'],  
     'data': [
-        'views/author_views.xml',
-        ],
-    'auto_install': False,
-    'application': True,
+        'security/ir.model.access.csv',
+        'views/library_book_views.xml',
+    ],
+    'application': True,  
     'installable': True,
-    'assets': {
-        
-    }
+    'auto_install': False,
 }

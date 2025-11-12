@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Acción para abrir la vista de libros -->
+    <record id="library_book_action" model="ir.actions.act_window">
+        <field name="name">Libros</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="library_book_list_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                ¡Crea tu primer libro!
+            </p>
+            <p>
+                Gestiona los libros de la biblioteca: título, ISBN, fecha de publicación y descripción.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menú raíz -->
+    <menuitem id="menu_library_root" name="Biblioteca" sequence="10"/>
+
+    <!-- Submenú para libros -->
+    <menuitem id="menu_library_books" name="Libros" parent="menu_library_root" action="library_book_action" sequence="10"/>
+
+    <!-- Vista de lista (list) -->
+    <record id="library_book_list_view" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="title"/>
+                <field name="isbn"/>
+                <field name="publication_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Vista de formulario (form) -->
+    <record id="library_book_form_view" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form string="Libro">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="title" placeholder="Título del libro"/>
+                            <field name="isbn" placeholder="Ej: 978-3-16-148410-0"/>
+                        </group>
+                        <group>
+                            <field name="publication_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="description" placeholder="Escribe una breve descripción del libro..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Vista de búsqueda (search) -->
+    <record id="library_book_search_view" model="ir.ui.view">
+        <field name="name">library.book.search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="title"/>
+                <field name="isbn"/>
+                <separator/>
+                <filter string="Publicados después de 2020" name="recent" domain="[('publication_date', '&gt;', '2020-01-01')]"/>
+                <filter string="Sin ISBN" name="no_isbn" domain="[('isbn', '=', False)]"/>
+                <group expand="1" string="Agrupar por">
+                    <filter string="Año de publicación" name="group_year" context="{'group_by': 'publication_date:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Asignar vista de búsqueda a la acción -->
+    <record id="library_book_action" model="ir.actions.act_window">
+        <field name="search_view_id" ref="library_book_search_view"/>
+    </record>
+</odoo>
